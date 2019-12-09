@@ -23,50 +23,55 @@ public class GildedRose {
     public void updateQuality() {
     	for (Item item : items) {    		
             if (item.getName().equals("Aged Brie") ) {
-            	if (item.getQuality() < 50) {
-                    item.setQuality(item.getQuality() + 1);
-    			}
-            	item.setSellIn(item.getSellIn() - 1);
+            	increaseQuality(item);
+            	decreaseSellIn(item);
     			if (item.getSellIn() < 0) {
-    				if (item.getQuality() < 50) {
-                        item.setQuality(item.getQuality() + 1);
-                    }
+    				increaseQuality(item);
     				
     			}
     			
             }else if (item.getName().equals("Backstage passes to a TAFKAL80ETC concert") ) {
-    			if (item.getQuality() < 50) {
-                    item.setQuality(item.getQuality() + 1);
-    			}
+    			increaseQuality(item);
     			if (item.getSellIn() < 11) {     
-                	if (item.getQuality() < 50) {
-                        item.setQuality(item.getQuality() + 1);
-                	}
+                	increaseQuality(item);
                     
                 }
     			if (item.getSellIn() < 6) {      
-                	if (item.getQuality() < 50) {
-                        item.setQuality(item.getQuality() + 1);
-                	}                	
+                	increaseQuality(item);                	
                 }
     			
-    			item.setSellIn(item.getSellIn() - 1);
+    			decreaseSellIn(item);
     			if (item.getSellIn() < 0) {
-                	item.setQuality(item.getQuality()
-                            - item.getQuality());
+                	resetQuality(item);
                 }
     		}else if (!item.getName().equals("Sulfuras, Hand of Ragnaros")) {
-                if (item.getQuality() > 0) {
-                	 item.setQuality(item.getQuality() - 1);                
-                }
-                item.setSellIn(item.getSellIn() - 1);
+                decreaseQuality(item);
+                decreaseSellIn(item);
                 if (item.getSellIn() < 0) {
-                	if (item.getQuality() > 0) {
-                		item.setQuality(item.getQuality() - 1);
-                	}
+                	decreaseQuality(item);
                 }
     		}
             
         }
     }
+
+	private void resetQuality(Item item) {
+		item.setQuality(0);
+	}
+
+	private void decreaseSellIn(Item item) {
+		item.setSellIn(item.getSellIn() - 1);
+	}
+
+	private void decreaseQuality(Item item) {
+		if (item.getQuality() > 0) {
+			 item.setQuality(item.getQuality() - 1);                
+		}
+	}
+
+	private void increaseQuality(Item item) {
+		if (item.getQuality() < 50) {
+		    item.setQuality(item.getQuality() + 1);
+		}
+	}
 }
