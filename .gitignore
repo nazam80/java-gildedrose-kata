@@ -1,0 +1,6 @@
+/target/
+src/main/java/com/.DS_Store
+.settings
+.DS_Store
+.classpath
+.project
