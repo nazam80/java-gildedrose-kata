@@ -22,7 +22,8 @@ public class GildedRose {
 
     public void updateQuality() {
     	for (Item item : items) {    		
-            if (item.getName().equals("Aged Brie") ) {
+    		switch (item.getName()) {
+			case "Aged Brie":
             	increaseQuality(item);
             	decreaseSellIn(item);
     			if (item.getSellIn() < 0) {
@@ -30,7 +31,8 @@ public class GildedRose {
     				
     			}
     			
-            }else if (item.getName().equals("Backstage passes to a TAFKAL80ETC concert") ) {
+    			break;
+			case "Backstage passes to a TAFKAL80ETC concert":
     			increaseQuality(item);
     			if (item.getSellIn() < 11) {     
                 	increaseQuality(item);
@@ -44,7 +46,10 @@ public class GildedRose {
     			if (item.getSellIn() < 0) {
                 	resetQuality(item);
                 }
-    		}else if (!item.getName().equals("Sulfuras, Hand of Ragnaros")) {
+    		    break;
+    		case "Sulfuras, Hand of Ragnaros":	
+    			 break;
+			default:
                 decreaseQuality(item);
                 decreaseSellIn(item);
                 if (item.getSellIn() < 0) {
