@@ -15,9 +15,6 @@ public class UpdatableItem extends Item {
     private static final int MIN_SELLIN = 0;
     private static final int SELLIN_DECREASE = 1;
 
-    private static final int NUMBER_OF_DAYS_INCREASE_QUALITY_BY_3 = 6;
-    private static final int NUMBER_OF_DAYS_INCREASE_QUALITY_BY_2 = 11;
-
     private Item item;
 
     public UpdatableItem(Item item) {
@@ -40,78 +37,49 @@ public class UpdatableItem extends Item {
     public void update() {
 	switch (item.getName()) {
 	case AGED_BRIE:
-	    increaseQuality();
-	    decreaseSellIn();
-	    if (isUnderMinSellin()) {
-		increaseQuality();
-
-	    }
-
+	    new AgedBrieItem(item).update();
 	    break;
 	case BACKSTAGE_PASSES:
-	    increaseQuality();
-	    if (shouldIncreaseBackstageQualityBy2()) {
-		increaseQuality();
-
-	    }
-	    if (shouldIncreaseBackstageQualityBy3()) {
-		increaseQuality();
-	    }
-
-	    decreaseSellIn();
-	    if (isUnderMinSellin()) {
-		resetQuality();
-	    }
+	    new BackStageItem(item).update();
 	    break;
 	case SULFURAS_HAND_OF_RAGNAROS:
+	    new SulfurasItem(item).update();
 	    break;
 	default:
-	    decreaseQuality();
-	    decreaseSellIn();
-	    if (isUnderMinSellin()) {
-		decreaseQuality();
-	    }
+	    new DefaultItem(item).update();	    
 	}
 
     }
 
-    private boolean isUnderMinSellin() {
+    protected boolean isUnderMinSellin() {
 	return item.getSellIn() < MIN_SELLIN;
     }
 
-    private boolean shouldIncreaseBackstageQualityBy3() {
-	return item.getSellIn() < NUMBER_OF_DAYS_INCREASE_QUALITY_BY_3;
-    }
-
-    private boolean shouldIncreaseBackstageQualityBy2() {
-	return item.getSellIn() < NUMBER_OF_DAYS_INCREASE_QUALITY_BY_2;
-    }
-
-    private void resetQuality() {
+    protected void resetQuality() {
 	item.setQuality(MIN_QUALITY);
     }
 
-    private void decreaseSellIn() {
+    protected void decreaseSellIn() {
 	item.setSellIn(item.getSellIn() - SELLIN_DECREASE);
     }
 
-    private void decreaseQuality() {
+    protected void decreaseQuality() {
 	if (canDecreaseQuality()) {
 	    item.setQuality(item.getQuality() - QUALITY_TO_INCREASE_DECREASE);
 	}
     }
 
-    private boolean canDecreaseQuality() {
+    protected boolean canDecreaseQuality() {
 	return item.getQuality() > MIN_QUALITY;
     }
 
-    private void increaseQuality() {
+    protected void increaseQuality() {
 	if (canIncreaseQuality()) {
 	    item.setQuality(item.getQuality() + QUALITY_TO_INCREASE_DECREASE);
 	}
     }
 
-    private boolean canIncreaseQuality() {
+    protected boolean canIncreaseQuality() {
 	return item.getQuality() < MAX_QUALITY;
     }
 }
