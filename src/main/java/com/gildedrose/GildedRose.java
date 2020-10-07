@@ -37,7 +37,7 @@ public class GildedRose {
 	    case AGED_BRIE:
 		increaseQuality(item);
 		decreaseSellIn(item);
-		if (item.getSellIn() < MIN_SELLIN) {
+		if (isUnderMinSellin(item)) {
 		    increaseQuality(item);
 
 		}
@@ -45,16 +45,16 @@ public class GildedRose {
 		break;
 	    case BACKSTAGE_PASSES:
 		increaseQuality(item);
-		if (item.getSellIn() < NUMBER_OF_DAYS_INCREASE_QUALITY_BY_2) {
+		if (shouldIncreaseBackstageQualityBy2(item)) {
 		    increaseQuality(item);
 
 		}
-		if (item.getSellIn() < NUMBER_OF_DAYS_INCREASE_QUALITY_BY_3) {
+		if (shouldIncreaseBackstageQualityBy3(item)) {
 		    increaseQuality(item);
 		}
 
 		decreaseSellIn(item);
-		if (item.getSellIn() < MIN_SELLIN) {
+		if (isUnderMinSellin(item)) {
 		    resetQuality(item);
 		}
 		break;
@@ -63,12 +63,24 @@ public class GildedRose {
 	    default:
 		decreaseQuality(item);
 		decreaseSellIn(item);
-		if (item.getSellIn() < MIN_SELLIN) {
+		if (isUnderMinSellin(item)) {
 		    decreaseQuality(item);
 		}
 	    }
 
 	}
+    }
+
+    private boolean isUnderMinSellin(Item item) {
+	return item.getSellIn() < MIN_SELLIN;
+    }
+
+    private boolean shouldIncreaseBackstageQualityBy3(Item item) {
+	return item.getSellIn() < NUMBER_OF_DAYS_INCREASE_QUALITY_BY_3;
+    }
+
+    private boolean shouldIncreaseBackstageQualityBy2(Item item) {
+	return item.getSellIn() < NUMBER_OF_DAYS_INCREASE_QUALITY_BY_2;
     }
 
     private void resetQuality(Item item) {
@@ -80,14 +92,22 @@ public class GildedRose {
     }
 
     private void decreaseQuality(Item item) {
-	if (item.getQuality() > MIN_QUALITY) {
+	if (canDecreaseQuality(item)) {
 	    item.setQuality(item.getQuality() - QUALITY_TO_INCREASE_DECREASE);
 	}
     }
 
+    private boolean canDecreaseQuality(Item item) {
+	return item.getQuality() > MIN_QUALITY;
+    }
+
     private void increaseQuality(Item item) {
-	if (item.getQuality() < MAX_QUALITY) {
+	if (canIncreaseQuality(item)) {
 	    item.setQuality(item.getQuality() + QUALITY_TO_INCREASE_DECREASE);
 	}
+    }
+
+    private boolean canIncreaseQuality(Item item) {
+	return item.getQuality() < MAX_QUALITY;
     }
 }
