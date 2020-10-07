@@ -1,82 +1,93 @@
 package com.gildedrose;
 
-
 public class GildedRose {
-	private Item[] items;
+
+    private static final String ORDINARY_ITEM = "Ordinary item";
+    private static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
+    private static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
+    private static final String AGED_BRIE = "Aged Brie";
+
+    private static final int MIN_QUALITY = 0;
+    private static final int MAX_QUALITY = 50;
+    private static final int QUALITY_TO_INCREASE_DECREASE = 1;
+
+    private static final int MIN_SELLIN = 0;
+    private static final int SELLIN_DECREASE = 1;
+
+    private static final int NUMBER_OF_DAYS_INCREASE_QUALITY_BY_3 = 6;
+    private static final int NUMBER_OF_DAYS_INCREASE_QUALITY_BY_2 = 11;
+
+    private Item[] items;
 
     public GildedRose(Item[] items) {
-        super();
-        this.items = items;
+	super();
+	this.items = items;
     }
 
     public GildedRose() {
-        super();
-        items = new Item[]{
-            new Item("Ordinary item", 10, 20),
-            new Item("Aged Brie", 2, 0),            
-            new Item("Sulfuras, Hand of Ragnaros", 0, 80),
-            new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20)            
-        };
+	super();
+	items = new Item[] { new Item(ORDINARY_ITEM, 10, 20), new Item(AGED_BRIE, 2, 0),
+		new Item(SULFURAS_HAND_OF_RAGNAROS, 0, 80), new Item(BACKSTAGE_PASSES, 15, 20) };
 
     }
 
     public void updateQuality() {
-    	for (Item item : items) {    		
-    		switch (item.getName()) {
-			case "Aged Brie":
-            	increaseQuality(item);
-            	decreaseSellIn(item);
-    			if (item.getSellIn() < 0) {
-    				increaseQuality(item);
-    				
-    			}
-    			
-    			break;
-			case "Backstage passes to a TAFKAL80ETC concert":
-    			increaseQuality(item);
-    			if (item.getSellIn() < 11) {     
-                	increaseQuality(item);
-                    
-                }
-    			if (item.getSellIn() < 6) {      
-                	increaseQuality(item);                	
-                }
-    			
-    			decreaseSellIn(item);
-    			if (item.getSellIn() < 0) {
-                	resetQuality(item);
-                }
-    		    break;
-    		case "Sulfuras, Hand of Ragnaros":	
-    			 break;
-			default:
-                decreaseQuality(item);
-                decreaseSellIn(item);
-                if (item.getSellIn() < 0) {
-                	decreaseQuality(item);
-                }
-    		}
-            
-        }
+	for (Item item : items) {
+	    switch (item.getName()) {
+	    case AGED_BRIE:
+		increaseQuality(item);
+		decreaseSellIn(item);
+		if (item.getSellIn() < MIN_SELLIN) {
+		    increaseQuality(item);
+
+		}
+
+		break;
+	    case BACKSTAGE_PASSES:
+		increaseQuality(item);
+		if (item.getSellIn() < NUMBER_OF_DAYS_INCREASE_QUALITY_BY_2) {
+		    increaseQuality(item);
+
+		}
+		if (item.getSellIn() < NUMBER_OF_DAYS_INCREASE_QUALITY_BY_3) {
+		    increaseQuality(item);
+		}
+
+		decreaseSellIn(item);
+		if (item.getSellIn() < MIN_SELLIN) {
+		    resetQuality(item);
+		}
+		break;
+	    case SULFURAS_HAND_OF_RAGNAROS:
+		break;
+	    default:
+		decreaseQuality(item);
+		decreaseSellIn(item);
+		if (item.getSellIn() < MIN_SELLIN) {
+		    decreaseQuality(item);
+		}
+	    }
+
+	}
     }
 
-	private void resetQuality(Item item) {
-		item.setQuality(0);
-	}
+    private void resetQuality(Item item) {
+	item.setQuality(MIN_QUALITY);
+    }
 
-	private void decreaseSellIn(Item item) {
-		item.setSellIn(item.getSellIn() - 1);
-	}
+    private void decreaseSellIn(Item item) {
+	item.setSellIn(item.getSellIn() - SELLIN_DECREASE);
+    }
 
-	private void decreaseQuality(Item item) {
-		if (item.getQuality() > 0) {
-			 item.setQuality(item.getQuality() - 1);                
-		}
+    private void decreaseQuality(Item item) {
+	if (item.getQuality() > MIN_QUALITY) {
+	    item.setQuality(item.getQuality() - QUALITY_TO_INCREASE_DECREASE);
 	}
+    }
 
-	private void increaseQuality(Item item) {
-		if (item.getQuality() < 50) {
-		    item.setQuality(item.getQuality() + 1);
-		}
+    private void increaseQuality(Item item) {
+	if (item.getQuality() < MAX_QUALITY) {
+	    item.setQuality(item.getQuality() + QUALITY_TO_INCREASE_DECREASE);
 	}
+    }
 }
