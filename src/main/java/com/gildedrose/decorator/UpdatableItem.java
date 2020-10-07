@@ -36,49 +36,61 @@ public abstract class UpdatableItem extends Item {
     }
 
     public String getName() {
-	return item.getName();
+        return  item.getName();
+    }
+
+    public void setName(String name) {
+	 item.setName(name);
     }
 
     public int getSellIn() {
-	return item.getSellIn();
+        return item.getSellIn();
+    }
+
+    public void setSellIn(int sellIn) {
+	item.setSellIn(sellIn);
     }
 
     public int getQuality() {
-	return item.getQuality();
-    }
+ 	return item.getQuality();
+     }
 
+    public void setQuality(int quality) {
+	item.setQuality(quality);
+    }
+    
     public abstract void update();
 	
 
     protected boolean isUnderMinSellin() {
-	return item.getSellIn() < MIN_SELLIN;
+	return getSellIn() < MIN_SELLIN;
     }
 
     protected void resetQuality() {
-	item.setQuality(MIN_QUALITY);
+	setQuality(MIN_QUALITY);
     }
 
     protected void decreaseSellIn() {
-	item.setSellIn(item.getSellIn() - SELLIN_DECREASE);
+	setSellIn(getSellIn() - SELLIN_DECREASE);
     }
 
     protected void decreaseQuality() {
 	if (canDecreaseQuality()) {
-	    item.setQuality(item.getQuality() - QUALITY_TO_INCREASE_DECREASE);
+	    setQuality(getQuality() - QUALITY_TO_INCREASE_DECREASE);
 	}
     }
 
     protected boolean canDecreaseQuality() {
-	return item.getQuality() > MIN_QUALITY;
+	return getQuality() > MIN_QUALITY;
     }
 
     protected void increaseQuality() {
 	if (canIncreaseQuality()) {
-	    item.setQuality(item.getQuality() + QUALITY_TO_INCREASE_DECREASE);
+	    setQuality(getQuality() + QUALITY_TO_INCREASE_DECREASE);
 	}
     }
 
     protected boolean canIncreaseQuality() {
-	return item.getQuality() < MAX_QUALITY;
+	return getQuality() < MAX_QUALITY;
     }
 }
