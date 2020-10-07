@@ -196,4 +196,29 @@ public class GildedRoseTest {
         assertEquals(80, agedBrie.getQuality());
     }
 
+    @Test
+    public void should_lower_the_quality_twice_as_fast_once_the_sell_in_date_has_passed_of_conjured() throws Exception {
+        
+    	Item ordinaryItem = new Item("Conjured", 10, 25);
+
+        GildedRose gildedRose = new GildedRose((Item[]) Arrays.asList(ordinaryItem).toArray());
+
+        gildedRose.updateQuality();
+
+        assertEquals(23, ordinaryItem.getQuality());
+    }
+
+    
+    @Test
+    public void should_lower_the_quality_four_times_as_fast_once_the_sell_in_date_has_passed_of_conjured() throws Exception {
+        
+    	Item ordinaryItem = new Item("Conjured", -1, 25);
+
+        GildedRose gildedRose = new GildedRose((Item[]) Arrays.asList(ordinaryItem).toArray());
+
+        gildedRose.updateQuality();
+
+        assertEquals(21, ordinaryItem.getQuality());
+    }
+
 }
