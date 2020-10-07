@@ -7,6 +7,7 @@ public abstract class UpdatableItem extends Item {
     private static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
     private static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
     private static final String AGED_BRIE = "Aged Brie";
+    private static final String CONJURED = "Conjured";
 
     private static final int MIN_QUALITY = 0;
     private static final int MAX_QUALITY = 50;
@@ -25,6 +26,8 @@ public abstract class UpdatableItem extends Item {
 	    return new BackStageItem(item);	    
 	case SULFURAS_HAND_OF_RAGNAROS:
 	    return new SulfurasItem(item);	    
+	case CONJURED:
+	    return new ConjuredItem(item);
 	default:
 	    return new DefaultItem(item);	    
 	}    
