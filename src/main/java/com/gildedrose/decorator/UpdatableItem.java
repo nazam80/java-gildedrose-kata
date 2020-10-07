@@ -2,7 +2,7 @@ package com.gildedrose.decorator;
 
 import com.gildedrose.Item;
 
-public class UpdatableItem extends Item {
+public abstract class UpdatableItem extends Item {
 
     private static final String SULFURAS_HAND_OF_RAGNAROS = "Sulfuras, Hand of Ragnaros";
     private static final String BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
@@ -16,8 +16,21 @@ public class UpdatableItem extends Item {
     private static final int SELLIN_DECREASE = 1;
 
     private Item item;
+    
+    public static UpdatableItem create(Item item) {
+	switch (item.getName()) {
+	case AGED_BRIE:
+	    return new AgedBrieItem(item);	    
+	case BACKSTAGE_PASSES:
+	    return new BackStageItem(item);	    
+	case SULFURAS_HAND_OF_RAGNAROS:
+	    return new SulfurasItem(item);	    
+	default:
+	    return new DefaultItem(item);	    
+	}    
+    }
 
-    public UpdatableItem(Item item) {
+    protected UpdatableItem(Item item) {
 	super(item.getName(), item.getSellIn(), item.getQuality());
 	this.item = item;
     }
@@ -34,22 +47,8 @@ public class UpdatableItem extends Item {
 	return item.getQuality();
     }
 
-    public void update() {
-	switch (item.getName()) {
-	case AGED_BRIE:
-	    new AgedBrieItem(item).update();
-	    break;
-	case BACKSTAGE_PASSES:
-	    new BackStageItem(item).update();
-	    break;
-	case SULFURAS_HAND_OF_RAGNAROS:
-	    new SulfurasItem(item).update();
-	    break;
-	default:
-	    new DefaultItem(item).update();	    
-	}
-
-    }
+    public abstract void update();
+	
 
     protected boolean isUnderMinSellin() {
 	return item.getSellIn() < MIN_SELLIN;

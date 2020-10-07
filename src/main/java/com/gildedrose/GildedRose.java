@@ -31,7 +31,7 @@ public class GildedRose {
     }
 
     private UpdatableItem decorateItem(Item item) {	
-	return new UpdatableItem(item);
+	return UpdatableItem.create(item);
     }
 
 }
